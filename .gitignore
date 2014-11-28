@@ -1,2 +1,6 @@
-.idea/
-target/
+# ignore everything
+*
+# whitelist anything that's a directory
+!*/
+# and all the wanted file types
+!*.java

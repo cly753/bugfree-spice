@@ -1,42 +1,3 @@
-package not_main;
-
-public class NotMapper extends MapReduceBase implements Mapper<Text, BytesWritable, Text, NotFeatureWritable> {
-
-    @Override
-    protected void setup(Context context) throws IOException, InterruptedException {
-
-    }
-    
-    @Override
-    public void map(Text key, BytesWritable value, Context context, Reporter reporter) throws IOException {
-        reporter.incrCounter(NotDriver.RecordCounters.IMAGE_SUBMITTED, 1);
-
-        byte[] tempValue = serialize(value);
-        InputStream in = new ByteArrayInputStream(tempValue);
-        BufferedImage image = ImageIO.read(in);
-        in.close();
-
-        NotFeatureWritable result = /* ... */(value);
-
-        reporter.incrCounter(NotDriver.RecordCounters.IMAGE_PROCESSED, 1);
-        context.write(key, result);
-    }
-}
-
-public class NotInputFormat extends FileInputFormat<Text, BytesWritable> {
-    @Override
-    protected boolean isSplitable(JobContext context, Path file) {
-        return false;
-    }
-
-    @Override
-    public RecordReader<Text, BytesWritable> createRecordReader(InputSplit split, TaskAttemptContext context) throws IOException, InterruptedException {
-        NotRecordReader reader = new NotRecordReader();
-        reader.initialize(split, context);
-        return reader;
-    }
-}
-
 public class NotRecordReader extends RecordReader<Text, BytesWritable> {
     // <key, value> <file name, file contents in bytes>
 
@@ -55,7 +16,7 @@ public class NotRecordReader extends RecordReader<Text, BytesWritable> {
     @Override
     public boolean nextKeyValue() throws IOException, InterruptedException {
         if (!processed) {
-            key = fileSplit.getFileName();
+            key = new Text(fileSplit.getPath().getName());
 
             byte[] contents = new byte[(int) fileSplit.getLength()];
             Path file = fileSplit.getPath();
@@ -73,6 +34,7 @@ public class NotRecordReader extends RecordReader<Text, BytesWritable> {
             processed = true;
             return true;
         }
+        return false;
     }
 
     @Override

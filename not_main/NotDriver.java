@@ -21,22 +21,28 @@ public class NotDriver {
         // job.setReducerClass(NotReducer.class);
         // job.setOutputKeyClass(Text.class);
         // job.setOutputValueClass(IntWritable.class);
-        job.setOutputFormatClass(NotOutputFormat.class);
+        // job.setOutputFormatClass(NotOutputFormat.class);
 
         
         job.setNumReduceTasks(0); // directly write to file system, without calling reducer
         job.setSpeculativeExecution(true);
 
-        FileInputFormat.addInputPath(job, new Path(args[0])); // provide input directory
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        FileInputFormat.addInputPath(job, new Path("/input/")); // provide input directory
+        FileOutputFormat.setOutputPath(job, new Path("/output/"));
 
-        // System.exit(job.waitForCompletion(true) ? 0 : 1); // .waitFor... will submit the job
-        // or 
-        RunningJob runningJob = runJob(job); // or use submitJob()
+        boolean ok = job.waitForCompletion(true);
+        // System.exit(ok ? 0 : 1); // .waitFor... will submit the job
 
-        int imageSubmitted = RunningJob.getCounters(RecordCounters.IMAGE_SUBMITTED);
-        int imageProcessed = RunningJob.getCounters(RecordCounters.IMAGE_PROCESSED);
+        // int imageSubmitted = RunningJob.getCounters(RecordCounters.IMAGE_SUBMITTED);
+        // int imageProcessed = RunningJob.getCounters(RecordCounters.IMAGE_PROCESSED);
     }
 }
 
 // set mapreduce.framework.name to "local" / "classic" / "yarn"
+
+
+// many small input files
+// http://yaseminavcular.blogspot.in/2011/03/many-small-input-files.html
+
+// The Small Files Problem
+// http://blog.cloudera.com/blog/2009/02/the-small-files-problem/
