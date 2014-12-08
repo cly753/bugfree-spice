@@ -34,8 +34,21 @@ public class NotDriver {
         job.setNumReduceTasks(0); // directly write to file system, without calling reducer
         job.setSpeculativeExecution(true);
 
-        FileInputFormat.addInputPath(job, new Path("/input/")); // provide input directory
-        FileOutputFormat.setOutputPath(job, new Path("/output/"));
+        String inputPath = "";
+        String outputPath = "";
+        String prefix = "";
+        for (String arg : args) {
+        	if (arg.startsWith("INPUTPATH"))
+        		inputPath = arg.substring(9, arg.length());
+            if (arg.startsWith("OUTPUTPATH"))
+            	outputPath = arg.substring(10, arg.length());
+//            if (arg.startsWith("PREFIX"))
+//        		prefix = arg.substring(9, arg.length());
+        }
+        System.out.println("INPUTPATH : " + inputPath);
+        System.out.println("OUTPUTPATH: " + outputPath);
+        FileInputFormat.addInputPath(job, new Path(inputPath)); // provide input directory
+        FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
         boolean ok = job.waitForCompletion(true);
         // System.exit(ok ? 0 : 1); // .waitFor... will submit the job
