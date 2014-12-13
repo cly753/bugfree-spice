@@ -29,9 +29,9 @@ public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWrita
         in.close();
 
         // do processing here
-        NotFeatureWritable result = new NotFeatureWritable("I am a result");
-        // 
-        
+        NotFeatureWritable result = new NotFeatureWritable("I am a result of #" + key.toString() + "#");
+        //
+                
         context.write(key, result);
     }
 

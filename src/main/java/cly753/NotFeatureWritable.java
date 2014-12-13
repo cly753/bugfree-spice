@@ -10,7 +10,11 @@ import org.apache.hadoop.io.Writable;
 
 public class NotFeatureWritable implements Writable /* implements WritableComparable */ {
 
-    private String feature = "zhoushen wan sui";
+    private String feature = "empty feature";
+    
+    public NotFeatureWritable() {
+    	
+    }
 
     public NotFeatureWritable(String feature) {
         this.feature = feature;

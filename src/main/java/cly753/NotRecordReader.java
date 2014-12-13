@@ -70,6 +70,6 @@ public class NotRecordReader extends RecordReader<Text, BytesWritable> {
 
     @Override
     public void close() throws IOException {
-
+    	
     }
 }
