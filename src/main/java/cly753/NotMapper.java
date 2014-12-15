@@ -15,7 +15,7 @@ import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 
 public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWritable> {
-
+	
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
 
@@ -23,10 +23,7 @@ public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWrita
     
     @Override
     public void map(Text key, BytesWritable value, Context context) throws IOException, InterruptedException {
-        byte[] tempValue = serialize(value);
-        InputStream in = new ByteArrayInputStream(tempValue);
-        BufferedImage image = ImageIO.read(in);
-        in.close();
+    	BufferedImage image = getBufferedImage(value);
 
         // do processing here
         NotFeatureWritable result = new NotFeatureWritable("I am a result of #" + key.toString() + "#");
@@ -36,10 +33,22 @@ public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWrita
     }
 
     public static byte[] serialize(Writable writable) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+    	ByteArrayOutputStream out = new ByteArrayOutputStream();
         DataOutputStream dataOut = new DataOutputStream(out);
+        
         writable.write(dataOut);
         dataOut.close();
-        return out.toByteArray();
+        
+        byte[] result = out.toByteArray();
+        return result;
+    }
+    
+    public static BufferedImage getBufferedImage(BytesWritable value) throws IOException {
+        byte[] tempValue = serialize(value);
+        
+        InputStream in = new ByteArrayInputStream(tempValue);
+        BufferedImage image = ImageIO.read(in);
+        in.close();
+        return image;
     }
 }
