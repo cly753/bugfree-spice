@@ -1,1 +1,1 @@
-#### hadoop distributed image processing 
+#### distributed image processing on hadoop

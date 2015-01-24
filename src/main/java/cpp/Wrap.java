@@ -16,7 +16,7 @@ public class Wrap {
 	}
 
 	public static void main(String[] args) {
-		MyImage aImg = new MyImage(HERE + "img.jpg");
+		MyImage aImg = new MyImage(HERE + "img.png");
 		if (aImg.ok)
 			System.out.println(new Wrap().process(aImg.data, aImg.width, aImg.height));
 	}
@@ -30,6 +30,7 @@ class MyImage {
 
 	public MyImage(String path) {
 		try {
+			System.out.println("path: " + path);
 			String temp[] = path.split("\\.");
 			String TYPE = temp[temp.length - 1];
 
@@ -45,6 +46,8 @@ class MyImage {
 			this.height = originalImage.getHeight();
 		}
 		catch (Exception e) {
+			System.out.println(e.toString());
+
 			this.ok = false;
 			this.data = null;
 			this.width = 0;
