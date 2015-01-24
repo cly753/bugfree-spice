@@ -1,13 +1,12 @@
 # exclude everything
 *
+
 !*/
 !*.java
 !*.xml
 target/surefire-reports/TEST-cly753.AppTest.xml
-jni-test/
-fftw*/
+try-area/
 !*.h
-fftw*/*.h
-!*.so
+!src/main/java/cly753/process/*.*
 !*.cpp
 *.zip
