@@ -5,4 +5,7 @@
 
 *.zip
 /mvncphadoop.sh
+
 !/pom.xml
+!/README.md
+!/.gitignore
