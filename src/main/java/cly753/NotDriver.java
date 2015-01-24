@@ -7,6 +7,8 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+
+
 public class NotDriver {
     static enum RecordCounters { IMAGE_SUBMITTED, IMAGE_PROCESSED };
     

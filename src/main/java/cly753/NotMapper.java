@@ -14,6 +14,9 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 
+import cly753.process.BFLoG_API;
+import cly753.process.MyImage;
+
 public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWritable> {
 	
     @Override
@@ -23,11 +26,22 @@ public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWrita
     
     @Override
     public void map(Text key, BytesWritable value, Context context) throws IOException, InterruptedException {
-    	BufferedImage image = getBufferedImage(value);
-
-        // do processing here
-        NotFeatureWritable result = new NotFeatureWritable("I am a result of #" + key.toString() + "#");
-        //
+    	BufferedImage tempImage = getBufferedImage(value);
+    	System.out.println("%%%% type = " + tempImage.getType());
+    	//////////////////////////////////////////////////////////
+    	// do processing here
+    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    	ImageIO.write( tempImage, "jpg", baos );
+    	
+    	baos.flush();
+    	byte[] imageInByte = baos.toByteArray();
+    	baos.close();
+    	
+    	MyImage aImg = new MyImage(imageInByte, tempImage.getWidth(), tempImage.getHeight());
+    	int ret = -1;
+	 	ret = new BFLoG_API().Extract(aImg.data, aImg.width, aImg.height);
+        NotFeatureWritable result = new NotFeatureWritable("I am a result of #" + key.toString() + "# feature: " + ret);
+        //////////////////////////////////////////////////////////
                 
         context.write(key, result);
     }
@@ -43,10 +57,8 @@ public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWrita
         return result;
     }
     
-    public static BufferedImage getBufferedImage(BytesWritable value) throws IOException {
-        byte[] tempValue = serialize(value);
-        
-        InputStream in = new ByteArrayInputStream(tempValue);
+    public static BufferedImage getBufferedImage(BytesWritable value) throws IOException {        
+        InputStream in = new ByteArrayInputStream(value.getBytes());
         BufferedImage image = ImageIO.read(in);
         in.close();
         return image;

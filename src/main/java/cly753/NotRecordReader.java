@@ -38,6 +38,8 @@ public class NotRecordReader extends RecordReader<Text, BytesWritable> {
             Path file = fileSplit.getPath();
             FileSystem fs = file.getFileSystem(conf);
             FSDataInputStream in = null;
+            
+            System.out.println("%%%% path: " + file);
 
             try {
                 in = fs.open(file);
