@@ -1,6 +1,9 @@
 package cly753;
 
+import java.net.URI;
+
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -11,14 +14,28 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class NotDriver {
     static enum RecordCounters { IMAGE_SUBMITTED, IMAGE_PROCESSED };
+
+    public static Configuration conf;
     
     public static String inputPath = "";
     public static String outputPath = "";
 //    public static String prefixPath = "";
 
     public static void main(String[] args) throws Exception {
-        Configuration conf = new Configuration();
-        Job job = Job.getInstance(conf, "not-a-job");
+    	conf = new Configuration();
+    	
+    	String uri = conf.get("fs.default.name");
+        System.out.println("%%%% fs.default.name : " + uri);        
+        
+        System.out.println("%%%% java.library.path : " + conf.get("java.library.path"));
+    	conf.set("java.library.path", "./");
+    	System.out.println("%%%% java.library.path : " + conf.get("java.library.path"));
+
+    	Job job = Job.getInstance(conf, "not-a-job");
+        job.addCacheFile(new URI("/lib.so/libBFLoG.so#./lib.so/libBFLoG.so"));
+        job.createSymlink();
+        job.addCacheFile(new URI("/lib.so/libbflog_api.so#./lib.so/libbflog_api.so"));
+        job.createSymlink();
         
         job.setInputFormatClass(NotInputFormat.class);
         job.setMapperClass(NotMapper.class);

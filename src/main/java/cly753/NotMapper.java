@@ -42,7 +42,7 @@ public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWrita
 	 	ret = new BFLoG_API().Extract(aImg.data, aImg.width, aImg.height);
         NotFeatureWritable result = new NotFeatureWritable("I am a result of #" + key.toString() + "# feature: " + ret);
         //////////////////////////////////////////////////////////
-                
+        
         context.write(key, result);
     }
 
