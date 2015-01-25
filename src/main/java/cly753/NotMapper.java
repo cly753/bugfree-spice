@@ -17,8 +17,9 @@ import org.apache.hadoop.mapreduce.Mapper;
 import cly753.process.BFLoG_API;
 import cly753.process.MyImage;
 
-public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWritable> {
-	
+public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWritable> {	
+	public static final String LABEL = "%%%% NotMapper : ";
+
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
 
@@ -27,20 +28,17 @@ public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWrita
     @Override
     public void map(Text key, BytesWritable value, Context context) throws IOException, InterruptedException {
     	BufferedImage tempImage = getBufferedImage(value);
-    	System.out.println("%%%% type = " + tempImage.getType());
     	//////////////////////////////////////////////////////////
     	// do processing here
-    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    	ImageIO.write( tempImage, "jpg", baos );
     	
-    	baos.flush();
-    	byte[] imageInByte = baos.toByteArray();
-    	baos.close();
+    	System.out.println(LABEL + "System::java.library.path : " + System.getProperty("java.library.path"));
+    	System.out.println(LABEL + "Job::java.library.path : " + context.getConfiguration().get("java.library.path"));
+    	MyImage aImg = new MyImage(tempImage, "jpg");
     	
-    	MyImage aImg = new MyImage(imageInByte, tempImage.getWidth(), tempImage.getHeight());
     	int ret = -1;
 	 	ret = new BFLoG_API().Extract(aImg.data, aImg.width, aImg.height);
         NotFeatureWritable result = new NotFeatureWritable("I am a result of #" + key.toString() + "# feature: " + ret);
+        System.out.println(LABEL + result.toString());
         //////////////////////////////////////////////////////////
         
         context.write(key, result);

@@ -1,26 +1,21 @@
 package cly753.process;
 
 public class BFLoG_API {
-	private static final String HERE = System.getProperty("user.dir") + "/";
+//	private static final String HERE = System.getProperty("user.dir") + "/";
+	
 	static {
-		System.out.println("=== library path === ");
-		System.out.println(System.getProperty("java.library.path"));
-		System.out.println("=== ------------ === ");
+//		http://mail-archives.apache.org/mod_mbox/hadoop-common-user/200904.mbox/%3CC61F954B.2197%25heyongqiang@software.ict.ac.cn%3E
+//		String oldPath=System.getProperty("java.library.path");
+//		System.setProperty("java.library.path", oldPath==null?local_path_of_lib_file:oldPath+"/" +local_path_of_lib_file))
+//		System.loadLibrary("XXX");
+		
+//		System.out.println("=== library path === ");
+//		System.out.println(System.getProperty("java.library.path"));
+//		System.out.println("=== ------------ === ");
 
 		System.loadLibrary("bflog_api");
+//		System.load("hdfs://localhost:9000/lib/libbflog_api.so");
 	}
 	
 	public native int Extract(byte[] image, int width, int height);
-	
-	// public static void main(String[] args) {
-	// 	// byte[] test = new byte[400 * 300];
-	// 	// for(int i = 0; i < 400 * 300; i++)
-	// 	// 	test[i] = (byte) (Math.random() * 255);
-		
-	// 	MyImage aImg = new MyImage(HERE + "img.png");
-	// 	int ret = new BFLoG_API().Extract(aImg.data, aImg.width, aImg.height);
-	// 	System.out.println("ret: " + ret);
-	// }
 }
-
-

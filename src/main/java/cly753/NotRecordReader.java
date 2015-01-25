@@ -1,7 +1,6 @@
 package cly753;
 
 import java.io.IOException;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
@@ -16,6 +15,8 @@ import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 
 public class NotRecordReader extends RecordReader<Text, BytesWritable> {
     // <key, value> <file name, file contents in bytes>
+	
+	public static final String LABEL = "%%%% NotRecordReader : ";
 
     private FileSplit fileSplit;
     private Configuration conf;
@@ -35,11 +36,12 @@ public class NotRecordReader extends RecordReader<Text, BytesWritable> {
             key = new Text(fileSplit.getPath().getName());
 
             byte[] contents = new byte[(int) fileSplit.getLength()];
+            
             Path file = fileSplit.getPath();
             FileSystem fs = file.getFileSystem(conf);
             FSDataInputStream in = null;
             
-            System.out.println("%%%% path: " + file);
+            System.out.println(LABEL + "path: " + file);
 
             try {
                 in = fs.open(file);
