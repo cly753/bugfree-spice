@@ -38,7 +38,8 @@ public class NotDriver {
 //    	URI temp = new URI(uri + "/lib/libbflog_api.so#libbflog_api.so");
 //    	System.out.println(LABEL + temp.toString());
 //    	DistributedCache.createSymlink(conf); DistributedCache.addCacheFile(temp, conf);
-        
+
+        job.setJarByClass(NotMapper.class);  // no need copy jar any more
         job.setInputFormatClass(NotInputFormat.class);
         job.setMapperClass(NotMapper.class);
         job.setMapOutputKeyClass(Text.class);
