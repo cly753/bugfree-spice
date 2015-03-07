@@ -9,11 +9,11 @@ public class NotAlgoCpp implements NotAlgoInterface {
 		System.load(NotConfigure.algoPath);
 	}
 	
-	public native int Extract(byte[] image, int width, int height);
+	public native int Extract(byte[] image, int width, int height, int format);
 
 	@Override
 	public int process(byte[] image, int width, int height, int format) {
-		int result = Extract(image, width, height);
+		int result = Extract(image, width, height, format);
 		return result;
 	}
 }
