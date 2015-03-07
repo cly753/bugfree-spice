@@ -14,8 +14,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 
-import cly753.process.BFLoG_API;
-import cly753.process.MyImage;
 import cly753.process.NotProcess;
 
 public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWritable> {	

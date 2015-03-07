@@ -30,15 +30,14 @@ public class NotDriver {
     	
     	String uri = conf.get("fs.default.name");
         System.out.println("%%%% fs.default.name : " + uri);        
-        
         System.out.println("%%%% NotDriver : System::java.library.path : " + System.getProperty("java.library.path"));
         System.out.println("%%%% NotDriver : Job::java.library.path : " + conf.get("java.library.path"));
         
     	Job job = Job.getInstance(conf, "not-a-job");
-//        job.addCacheFile(new URI(uri + "/lib/libBFLoG.so#libBFLoG.so"));
-//        job.createSymlink();
-//        job.addCacheFile(new URI(uri + "/lib/libbflog_api.so#libbflog_api.so"));
-//        job.createSymlink();
+//		job.addCacheFile(new URI(uri + "/lib/libBFLoG.so#libBFLoG.so"));
+//		job.createSymlink();
+//		job.addCacheFile(new URI(uri + "/lib/libbflog_api.so#libbflog_api.so"));
+//		job.createSymlink();
 //    	URI temp = new URI(uri + "/lib/libbflog_api.so#libbflog_api.so");
 //    	System.out.println(LABEL + temp.toString());
 //    	DistributedCache.createSymlink(conf); DistributedCache.addCacheFile(temp, conf);
@@ -49,12 +48,13 @@ public class NotDriver {
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(NotFeatureWritable.class);
 
-        // job.setCombinerClass(NotCombiner.class);
-        // job.setPartitionerClass(NotPartitioner.class);
-
-//         job.setReducerClass(NotReducer.class);
-//         job.setOutputKeyClass(Text.class);
-//         job.setOutputValueClass(NotFeatureWritable.class);
+//		job.setCombinerClass(NotCombiner.class);
+//		job.setPartitionerClass(NotPartitioner.class);
+//		
+//		job.setReducerClass(NotReducer.class);
+//		job.setOutputKeyClass(Text.class);
+//		job.setOutputValueClass(NotFeatureWritable.class);
+        
         job.setOutputFormatClass(NotOutputFormat.class);
 
         job.setNumReduceTasks(0); // directly write to file system, without calling reducer
