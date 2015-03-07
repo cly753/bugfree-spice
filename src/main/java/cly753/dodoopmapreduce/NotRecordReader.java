@@ -1,4 +1,4 @@
-package cly753;
+package cly753.dodoopmapreduce;
 
 import java.io.IOException;
 import org.apache.hadoop.conf.Configuration;

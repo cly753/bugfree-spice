@@ -1,4 +1,4 @@
-package cly753;
+package cly753.dodoopmapreduce;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;

@@ -9,6 +9,7 @@ public class NotConfigure {
 	public static String outPath;
 	public static ALGO_TYPE type;
 	public static String algoPath;
+	public static String algoClassName;
 	
 	public static List<String> error;
 	
@@ -27,6 +28,12 @@ public class NotConfigure {
 			break;
 		case "JAVA": case "Java": case "java":
 			type = ALGO_TYPE.JAVA;
+			
+			if (args.length < 5) {
+				error.add("Not enough argument. 5}full algorithm class name");
+				return false;
+			}
+			algoClassName = args[5];
 			break;
 		default:
 			error.add("Not support language.");

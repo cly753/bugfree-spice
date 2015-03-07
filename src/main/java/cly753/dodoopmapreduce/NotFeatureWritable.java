@@ -1,4 +1,4 @@
-package cly753;
+package cly753.dodoopmapreduce;
 
 import java.io.DataInput;
 import java.io.DataOutput;

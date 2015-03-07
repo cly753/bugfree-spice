@@ -1,4 +1,4 @@
-package cly753;
+package cly753.dodoopmapreduce;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
