@@ -8,6 +8,8 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import cly753.configure.NotConfigure;
+
 
 
 public class NotDriver {
@@ -17,11 +19,13 @@ public class NotDriver {
 
     public static Configuration conf;
     
-    public static String inputPath = "";
-    public static String outputPath = "";
-//    public static String prefixPath = "";
-
     public static void main(String[] args) throws Exception {
+    	if (!NotConfigure.init(args)) {
+    		for (String e : NotConfigure.error)
+    			System.out.println("%%%% " + e);
+    		return ;
+    	}
+    	
     	conf = new Configuration();
     	
     	String uri = conf.get("fs.default.name");
@@ -56,28 +60,15 @@ public class NotDriver {
         job.setNumReduceTasks(0); // directly write to file system, without calling reducer
         
         job.setSpeculativeExecution(true);
-
-        fillPath(args);
         
         System.out.println(LABEL + "delete old output path...");
         FileSystem fs = FileSystem.get(new Configuration());
-        fs.delete(new Path(outputPath), true);
+        fs.delete(new Path(NotConfigure.outPath), true);
         
-        FileInputFormat.addInputPath(job, new Path(inputPath)); // provide input directory
-        FileOutputFormat.setOutputPath(job, new Path(outputPath));
+        FileInputFormat.addInputPath(job, new Path(NotConfigure.inPath)); // provide input directory
+        FileOutputFormat.setOutputPath(job, new Path(NotConfigure.outPath));
 
         boolean ok = job.waitForCompletion(true);
-    }
-    
-    private static void fillPath(String[] args) {
-        for (String arg : args) {
-        	if (arg.startsWith("INPUTPATH"))
-        		inputPath = arg.substring(9, arg.length());
-            if (arg.startsWith("OUTPUTPATH"))
-            	outputPath = arg.substring(10, arg.length());
-        }
-        System.out.println("INPUTPATH : " + inputPath);
-        System.out.println("OUTPUTPATH: " + outputPath);
     }
 }
 

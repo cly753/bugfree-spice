@@ -16,6 +16,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import cly753.process.BFLoG_API;
 import cly753.process.MyImage;
+import cly753.process.NotProcess;
 
 public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWritable> {	
 	public static final String LABEL = "%%%% NotMapper : ";
@@ -33,12 +34,9 @@ public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWrita
     	
     	System.out.println(LABEL + "System::java.library.path : " + System.getProperty("java.library.path"));
     	System.out.println(LABEL + "Job::java.library.path : " + context.getConfiguration().get("java.library.path"));
-    	MyImage aImg = new MyImage(tempImage, "jpg");
     	
-    	int ret = -1;
-	 	ret = new BFLoG_API().Extract(aImg.data, aImg.width, aImg.height);
-        NotFeatureWritable result = new NotFeatureWritable("I am a result of #" + key.toString() + "# feature: " + ret);
-        System.out.println(LABEL + result.toString());
+    	NotFeatureWritable result = NotProcess.process(tempImage, NotProcess.IMG_TYPE.JPG);
+        System.out.println(LABEL + " key: " + key + " " + result.toString());
         //////////////////////////////////////////////////////////
         
         context.write(key, result);
