@@ -9,8 +9,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import cly753.configure.NotConfigure;
-
-
+import cly753.process.NotAlgoLoader;
 
 public class NotDriver {
     static enum RecordCounters { IMAGE_SUBMITTED, IMAGE_PROCESSED };
@@ -25,7 +24,6 @@ public class NotDriver {
     			System.out.println("%%%% " + e);
     		return ;
     	}
-    	
     	conf = new Configuration();
     	
     	String uri = conf.get("fs.default.name");

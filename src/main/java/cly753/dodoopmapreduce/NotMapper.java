@@ -29,14 +29,9 @@ public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWrita
     	BufferedImage tempImage = getBufferedImage(value);
     	//////////////////////////////////////////////////////////
     	// do processing here
-    	
-    	System.out.println(LABEL + "System::java.library.path : " + System.getProperty("java.library.path"));
-    	System.out.println(LABEL + "Job::java.library.path : " + context.getConfiguration().get("java.library.path"));
-    	
     	NotFeatureWritable result = NotProcess.process(tempImage, NotProcess.IMG_TYPE.JPG);
         System.out.println(LABEL + " key: " + key + ", result: " + result.toString());
-        //////////////////////////////////////////////////////////
-        
+        ////////////////////////////////////////////////////////// 
         context.write(key, result);
     }
 

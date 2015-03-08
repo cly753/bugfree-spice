@@ -1,7 +1,4 @@
-# ignore for me
-try-area/
-mvncphadoop.sh
-*.*~
+# please look at end of this file
 
 
 
@@ -61,3 +58,11 @@ local.properties
 .target
 # TeXlipse plugin
 .texlipse
+
+
+
+# ignore for me
+!script/java/*.jar
+try-area/
+mvncphadoop.sh
+*.*~

@@ -5,6 +5,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.hadoop.conf.Configuration;
+
 import cly753.process.NotAlgoLoader;
 
 public class NotConfigure {
@@ -13,12 +15,13 @@ public class NotConfigure {
 	public static String inPath; // 1}
 	public static String outPath; // 2}
 	public static ALGO_TYPE type; // 3}
-	public static String algoPath; // 4}
+	public static String algoPath; // 4}*.a or *.jar
 	public static String algoClassName; // optional. 5}
-	
+	public static String algoAPIPath; // optional. 6}
+		
 	public static List<String> error;
 	
-	public static boolean init(String args[]) {
+	public static boolean init(String args[]) {		
 		System.out.println("args are: ");
 		for (int i = 0; i < args.length; i++) {
 			System.out.println(i + ": " + args[i]);
@@ -45,12 +48,13 @@ public class NotConfigure {
 			}
 			break;
 		case "JAVA": case "Java": case "java":
-			if (args.length < 5) {
-				error.add("Not enough argument. 5}full algorithm class name");
+			if (args.length < 6) {
+				error.add("Not enough argument. 5}full algorithm class name 6}path of NotAlgoAPI.jar");
 				return false;
 			}
 			type = ALGO_TYPE.JAVA;
-			algoPath = args[3];
+			algoClassName = args[4];
+			algoAPIPath = args[5];
 			break;
 		default:
 			error.add("Language not supported.");
