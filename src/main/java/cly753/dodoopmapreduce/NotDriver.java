@@ -64,18 +64,19 @@ public class NotDriver {
         
         job.setSpeculativeExecution(true);
 
-        logger.info("Deleting old output path: " + "[put path here]" + "...");
-        FileSystem fs = FileSystem.get(new Configuration());
-        fs.delete(new Path(NotConfigure.outPath), true);
+        if (false) {
+            logger.warn("Deleting old output path: " + "[put path here]" + "...");
+            FileSystem fs = FileSystem.get(new Configuration());
+            fs.delete(new Path(NotConfigure.outPath), true);
+        }
         
         FileInputFormat.addInputPath(job, new Path(NotConfigure.inPath)); // provide input directory
         FileOutputFormat.setOutputPath(job, new Path(NotConfigure.outPath));
 
-
         long start = new Date().getTime();
         boolean ok = job.waitForCompletion(true);
         long end = new Date().getTime();
-        System.out.println("Job took " + (end - start) + " milliseconds");
+        System.out.println("Job took " + (end - start) + " milliseconds.");
     }
 }
 
