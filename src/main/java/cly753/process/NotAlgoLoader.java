@@ -6,10 +6,12 @@ import java.net.URLClassLoader;
 import java.nio.file.Paths;
 
 import cly753.configure.NotConfigure;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NotAlgoLoader {
-	public static final String LABEL = "%%% cly753.process.NotAlgoLoader %%%";
-	
+	private static final Logger logger = LoggerFactory.getLogger(MyImage.class);
+
 	public static NotAlgoInterface load(String[] jarPaths, String className) {
 //    	System.out.println(LABEL + "System::java.library.path : " + System.getProperty("java.library.path"));
 //    	System.out.println(LABEL + "Job::java.library.path : " + NotConfigure.conf.get("java.library.path"));
@@ -17,11 +19,11 @@ public class NotAlgoLoader {
 			URL[] urls = new URL[jarPaths.length];
 			for (int i = 0; i < jarPaths.length; i++)
 				urls[i] = Paths.get(jarPaths[i]).toUri().toURL();
-			
-			System.out.println("%%% loading " + className + " at ");
+
+			logger.debug("loading " + className + " at ");
 			for (URL u : urls)
-				System.out.println("%%% \t" + u.toString());
-			
+				logger.debug("\t" + u.toString());
+
 			ClassLoader cl = URLClassLoader.newInstance(urls, NotAlgoInterface.class.getClassLoader());
 			Class<?> algoClass = Class.forName(className, true, cl);
 			

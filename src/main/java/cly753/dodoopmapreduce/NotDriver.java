@@ -10,9 +10,14 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import cly753.configure.NotConfigure;
 import cly753.process.NotAlgoLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Date;
 
 public class NotDriver {
     static enum RecordCounters { IMAGE_SUBMITTED, IMAGE_PROCESSED };
+    private static final Logger logger = LoggerFactory.getLogger(NotDriver.class);
     
     public static final String LABEL = "%%%% NotDriver : ";
 
@@ -20,17 +25,17 @@ public class NotDriver {
     
     public static void main(String[] args) throws Exception {
     	if (!NotConfigure.init(args)) {
-    		for (String e : NotConfigure.error)
-    			System.out.println("%%%% " + e);
+            NotConfigure.error.forEach(logger::warn);
     		return ;
     	}
+
     	conf = new Configuration();
-    	
-    	String uri = conf.get("fs.default.name");
-        System.out.println("%%%% fs.default.name : " + uri);        
-        System.out.println("%%%% NotDriver : System::java.library.path : " + System.getProperty("java.library.path"));
-        System.out.println("%%%% NotDriver : Job::java.library.path : " + conf.get("java.library.path"));
-        
+
+        String uri = conf.get("fs.defaultFS");
+        logger.info("fs.defaultFS : " + uri);
+        logger.info("System::java.library.path : " + System.getProperty("java.library.path"));
+        logger.info("Job::java.library.path : " + conf.get("java.library.path"));
+
     	Job job = Job.getInstance(conf, "not-a-job");
 //		job.addCacheFile(new URI(uri + "/lib/libBFLoG.so#libBFLoG.so"));
 //		job.createSymlink();
@@ -58,15 +63,19 @@ public class NotDriver {
         job.setNumReduceTasks(0); // directly write to file system, without calling reducer
         
         job.setSpeculativeExecution(true);
-        
-        System.out.println(LABEL + "delete old output path...");
+
+        logger.info("Deleting old output path: " + "[put path here]" + "...");
         FileSystem fs = FileSystem.get(new Configuration());
         fs.delete(new Path(NotConfigure.outPath), true);
         
         FileInputFormat.addInputPath(job, new Path(NotConfigure.inPath)); // provide input directory
         FileOutputFormat.setOutputPath(job, new Path(NotConfigure.outPath));
 
+
+        long start = new Date().getTime();
         boolean ok = job.waitForCompletion(true);
+        long end = new Date().getTime();
+        System.out.println("Job took " + (end - start) + " milliseconds");
     }
 }
 

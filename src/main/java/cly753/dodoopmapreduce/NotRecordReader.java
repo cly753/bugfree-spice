@@ -12,11 +12,13 @@ import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NotRecordReader extends RecordReader<Text, BytesWritable> {
     // <key, value> <file name, file contents in bytes>
 	
-	public static final String LABEL = "%%%% NotRecordReader : ";
+    private static final Logger logger = LoggerFactory.getLogger(NotMapper.class);
 
     private FileSplit fileSplit;
     private Configuration conf;
@@ -40,8 +42,8 @@ public class NotRecordReader extends RecordReader<Text, BytesWritable> {
             Path file = fileSplit.getPath();
             FileSystem fs = file.getFileSystem(conf);
             FSDataInputStream in = null;
-            
-            System.out.println(LABEL + "path: " + file);
+
+            logger.debug("path: " + file);
 
             try {
                 in = fs.open(file);

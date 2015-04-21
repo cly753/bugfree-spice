@@ -9,13 +9,16 @@ import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.TaskID;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NotOutputFormat<Text, NotFeatureWritable> extends FileOutputFormat {
+	private static final Logger logger = LoggerFactory.getLogger(NotMapper.class);
 
 	@Override
 	public RecordWriter getRecordWriter(TaskAttemptContext task)
 			throws IOException, InterruptedException {
-		System.out.println("\n\n\n## " + getOutputName(task) + "##\n\n\n");
+		logger.debug("\n\n\n## " + getOutputName(task) + "##\n\n\n");
 
 		Path outputPath = FileOutputFormat.getOutputPath(task);
 		TaskID taskId = task.getTaskAttemptID().getTaskID();  

@@ -15,9 +15,11 @@ import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import cly753.process.NotProcess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWritable> {	
-	public static final String LABEL = "%%%% NotMapper : ";
+    private static final Logger logger = LoggerFactory.getLogger(NotMapper.class);
 
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
@@ -30,8 +32,8 @@ public class NotMapper extends Mapper<Text, BytesWritable, Text, NotFeatureWrita
     	//////////////////////////////////////////////////////////
     	// do processing here
     	NotFeatureWritable result = NotProcess.process(tempImage, NotProcess.IMG_TYPE.JPG);
-        System.out.println(LABEL + " key: " + key + ", result: " + result.toString());
-        ////////////////////////////////////////////////////////// 
+        logger.debug(" key: " + key + ", result: " + result.toString());
+        //////////////////////////////////////////////////////////
         context.write(key, result);
     }
 

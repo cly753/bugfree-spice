@@ -6,9 +6,13 @@ import java.util.Iterator;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class NotReducer extends Reducer<Text, NotFeatureWritable, Text, NotFeatureWritable> {
+    private static final Logger logger = LoggerFactory.getLogger(NotMapper.class);
+
     private MultipleOutputs<Text, NotFeatureWritable> multipleOutputs;
 
     @Override
@@ -27,7 +31,7 @@ public class NotReducer extends Reducer<Text, NotFeatureWritable, Text, NotFeatu
         		multipleOutputs.write(new Text("#key field#"), eachValue, key.toString());
 			} catch (InterruptedException e) {
 				// e.printStackTrace();
-				System.out.println(" !! NotReducer.reduce() !! InterruptedException !! ");
+                logger.error(" !! NotReducer.reduce() !! InterruptedException !! ");
 			}
         }
     }

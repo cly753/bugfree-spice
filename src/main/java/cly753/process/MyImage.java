@@ -1,5 +1,8 @@
 package cly753.process;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -7,6 +10,8 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 public class MyImage {
+	private static final Logger logger = LoggerFactory.getLogger(MyImage.class);
+
 	public boolean ok = true;
 	public byte data[];
 	public int width;
@@ -24,7 +29,7 @@ public class MyImage {
 			this.width = originalImage.getWidth();
 			this.height = originalImage.getHeight();
 
-			System.out.println(" Load OK ");
+			logger.debug("Load OK");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
@@ -34,20 +39,20 @@ public class MyImage {
 			this.width = 0;
 			this.height = 0;
 
-			System.out.println(" Load NOT OK : public MyImage(BufferedImage originalImage) ");
+			logger.error(" Load NOT OK : public MyImage(BufferedImage originalImage) ");
 		}
 	}
 
 	public MyImage(String path) {
 		try {
-			System.out.println("path: " + path);
+			logger.debug("path: " + path);
 			String temp[] = path.split("\\.");
 			String TYPE = temp[temp.length - 1];
 
 			BufferedImage originalImage = ImageIO.read(new File(path));
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-			ImageIO.write( originalImage, TYPE, baos );
+			ImageIO.write(originalImage, TYPE, baos);
 			baos.flush();
 			this.data = baos.toByteArray();
 			baos.close();
@@ -55,7 +60,7 @@ public class MyImage {
 			this.width = originalImage.getWidth();
 			this.height = originalImage.getHeight();
 
-			System.out.println(" Load OK ");
+			logger.debug("Load OK");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
@@ -65,7 +70,7 @@ public class MyImage {
 			this.width = 0;
 			this.height = 0;
 
-			System.out.println(" Load NOT OK : public MyImage(String path) ");
+			logger.error("Load NOT OK : public MyImage(String path)");
 		}
 	}
 
@@ -80,7 +85,7 @@ public class MyImage {
 			this.data = null;
 			this.width = 0;
 			this.height = 0;
-			System.out.println(" Load NOT OK : public MyImage(byte[] data, int width, int height)");
+			logger.error("Load NOT OK : public MyImage(byte[] data, int width, int height)");
 		}
 	}
 }
